@@ -84,10 +84,28 @@ public class main {
 	}
 
 	public static String extractExtensionFromUrl(String url) {
-		String estensione="";
-		int indicepunto= url.lastIndexOf('.');
-		estensione=url.substring(indicepunto, indicepunto+4);
-		return estensione;
-	}
+		if(url.contains(".png"))
+			return ".png";
+		else
+			if(url.contains(".jpg"))
+				return ".jpg";
+			else
+				if(url.contains(".jpeg"))
+			return ".jpeg";
+				else
+					if(url.contains(".ico"))
+						return ".ico";
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 
 }
