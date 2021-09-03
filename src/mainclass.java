@@ -1,10 +1,8 @@
 import java.io.*;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import java.net.URL;
 import java.util.Random;
 
-public class main {
+public class mainclass {
 	public static void main(String[] args) throws IOException {
 		FileWriter w;
 		w = new FileWriter("my_res.txt", true);
@@ -40,23 +38,28 @@ public class main {
 
 		BufferedReader lettore = new BufferedReader(new FileReader("my_res.txt"));
 		String linea = lettore.readLine();
+		String est="";
+		String nomefile="";
 		while (linea != null)// finchè non siamo a fine file
 		{
-			System.out.println(linea);
+			est=extractExtensionFromUrl(linea);
+			nomefile=creaFileName(est);
+			System.out.println(nomefile);
+			saveImage(linea, nomefile);
 			linea = lettore.readLine();
 		}
 	}
-	/*
-	 * public static void saveImage(String imageUrl, String destinationFile) throws
-	 * IOException { URL url = new URL(imageUrl); InputStream is = url.openStream();
-	 * OutputStream os = new FileOutputStream(destinationFile);
-	 * 
-	 * byte[] b = new byte[2048]; int length;
-	 * 
-	 * while ((length = is.read(b)) != -1) { os.write(b, 0, length); }
-	 * 
-	 * is.close(); os.close(); }
-	 */
+	
+	  public static void saveImage(String imageUrl, String destinationFile) throws
+	  IOException { URL url = new URL(imageUrl); InputStream is = url.openStream();
+	  OutputStream os = new FileOutputStream(destinationFile);
+	  
+	 byte[] b = new byte[2048]; int length;
+	  
+	 while ((length = is.read(b)) != -1) { os.write(b, 0, length); }
+	  
+	  is.close(); os.close(); }
+	 
 
 	/*
 	 * public static void estraiNomeFiledaURL( String url) { String [] divisione =
@@ -84,28 +87,19 @@ public class main {
 	}
 
 	public static String extractExtensionFromUrl(String url) {
+		String este=null;;
 		if(url.contains(".png"))
-			return ".png";
+			este= ".png";
 		else
 			if(url.contains(".jpg"))
-				return ".jpg";
+				este= ".jpg";
 			else
 				if(url.contains(".jpeg"))
-			return ".jpeg";
+					este=".jpeg";
 				else
 					if(url.contains(".ico"))
-						return ".ico";
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+						este= ".ico";
+		return este;
+		}
 
 }
