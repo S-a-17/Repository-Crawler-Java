@@ -1,11 +1,17 @@
 import java.io.*;
 import java.net.URL;
 import java.util.Random;
+import java.io.File;
 
 public class mainclass {
+	private static char fs= File.separatorChar;
+	private static String Root="C:";
 	public static void main(String[] args) throws IOException {
+		String folder = "media";
+		String filenome= "my_res.txt";
+		File filestampa= new File(Root+fs+folder+fs+filenome);
 		FileWriter w;
-		w = new FileWriter("my_res.txt", true);
+		w = new FileWriter(filenome, true);
 		BufferedWriter b = new BufferedWriter(w);
 		boolean controllo;// variabile di controllo sui doppioni
 
@@ -14,7 +20,7 @@ public class mainclass {
 		else {
 			for (int i = 0; i < args.length; i++) // per ogni arg che inseriamo
 			{
-				BufferedReader reader = new BufferedReader(new FileReader("my_res.txt"));
+				BufferedReader reader = new BufferedReader(new FileReader(filenome));
 				String line = reader.readLine();
 				controllo = false;// riporto la variabile di controllo al suo valore originale
 				while (line != null)// finchè non siamo a fine file
@@ -36,7 +42,7 @@ public class mainclass {
 			}
 		}
 
-		BufferedReader lettore = new BufferedReader(new FileReader("my_res.txt"));
+		BufferedReader lettore = new BufferedReader(new FileReader(filenome));
 		String linea = lettore.readLine();
 		String est="";
 		String nomefile="";
