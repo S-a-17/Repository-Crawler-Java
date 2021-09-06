@@ -1,11 +1,18 @@
 import java.io.*;
 import java.net.URL;
 import java.util.Random;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.File;
 
 public class mainclass {
 	private static char fs= File.separatorChar;
 	public static void main(String[] args) throws IOException {
+		String listaurl[]= new String [args.length];
 		String folder = "Media";
 		String filenome= "my_res.txt";
 		File filestampa= new File(folder);
@@ -35,6 +42,7 @@ public class mainclass {
 						line = reader.readLine();
 				}
 				if (controllo == false) { // se l'arg non è un doppione, viene scritto in fondo al file
+					listaurl[i]=line;
 					b.write(args[i] + "\n");
 					b.flush();
 				}
@@ -42,17 +50,19 @@ public class mainclass {
 			}
 		}
 
-		BufferedReader lettore = new BufferedReader(new FileReader(folder+fs+filenome));
-		String linea = lettore.readLine();
+		
 		String est="";
 		String nomefile="";
-		while (linea != null)// finchè non siamo a fine file
+		for (int i=0; i< listaurl.length; i++)// finchè non siamo a fine file
 		{
-			est=extractExtensionFromUrl(linea);
+			Document doc= Jsoup.connect(listaurl[i]).get();
+			Elements links = doc.select("img[src]");
+			for(Element url: links) {
+			est=extractExtensionFromUrl(String.valueOf(url));
 			nomefile=creaFileName(est);
 			System.out.println(nomefile);
-			saveImage(linea,folder+fs+nomefile);
-			linea = lettore.readLine();
+			saveImage(String.valueOf(url),folder+fs+nomefile);
+			}
 		}
 		b.close();
 	}
