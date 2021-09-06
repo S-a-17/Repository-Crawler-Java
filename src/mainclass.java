@@ -5,13 +5,13 @@ import java.io.File;
 
 public class mainclass {
 	private static char fs= File.separatorChar;
-	private static String Root="C:";
 	public static void main(String[] args) throws IOException {
-		String folder = "media";
+		String folder = "Media";
 		String filenome= "my_res.txt";
-		File filestampa= new File(Root+fs+folder+fs+filenome);
+		File filestampa= new File(folder);
+		filestampa.mkdirs();
 		FileWriter w;
-		w = new FileWriter(filenome, true);
+		w = new FileWriter(folder+fs+filenome, true);
 		BufferedWriter b = new BufferedWriter(w);
 		boolean controllo;// variabile di controllo sui doppioni
 
@@ -20,7 +20,7 @@ public class mainclass {
 		else {
 			for (int i = 0; i < args.length; i++) // per ogni arg che inseriamo
 			{
-				BufferedReader reader = new BufferedReader(new FileReader(filenome));
+				BufferedReader reader = new BufferedReader(new FileReader(folder+fs+filenome));
 				String line = reader.readLine();
 				controllo = false;// riporto la variabile di controllo al suo valore originale
 				while (line != null)// finchè non siamo a fine file
@@ -42,7 +42,7 @@ public class mainclass {
 			}
 		}
 
-		BufferedReader lettore = new BufferedReader(new FileReader(filenome));
+		BufferedReader lettore = new BufferedReader(new FileReader(folder+fs+filenome));
 		String linea = lettore.readLine();
 		String est="";
 		String nomefile="";
@@ -51,9 +51,10 @@ public class mainclass {
 			est=extractExtensionFromUrl(linea);
 			nomefile=creaFileName(est);
 			System.out.println(nomefile);
-			saveImage(linea, nomefile);
+			saveImage(linea,folder+fs+nomefile);
 			linea = lettore.readLine();
 		}
+		b.close();
 	}
 	
 	  public static void saveImage(String imageUrl, String destinationFile) throws
