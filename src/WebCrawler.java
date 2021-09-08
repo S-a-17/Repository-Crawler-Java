@@ -12,75 +12,85 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class WebCrawler {
-	final char fs= File.separatorChar;
-	private static String creaFileName(String este) {	
+	final char fs = File.separatorChar;
+
+	private static String createFileName(String exte) {
 		final int FILE_NAME_MAX_LENGTH = 10;
-		String nome = "";
-		Random car = new Random();
-		int valore_int_carattere;
-		char chara;
+		final int ALPHABET_SPACER = 26;
+		String name = "";
+		Random randInt = new Random();
+		int intValueOfChar;
+		char finalChar;
 		for (int i = 0; i < FILE_NAME_MAX_LENGTH; i++) {
-			valore_int_carattere = car.nextInt(26) + 'a';
-			final boolean doUppercase = valore_int_carattere % 2==0;
+			intValueOfChar = randInt.nextInt(ALPHABET_SPACER) + 'a';
+			final boolean doUppercase = intValueOfChar % 2 == 0;
 			if (doUppercase)
-				chara = Character.toUpperCase((char) valore_int_carattere);
+				finalChar = Character.toUpperCase((char) intValueOfChar);
 			else
-				chara = (char) valore_int_carattere;
-			nome = nome + chara;
+				finalChar = (char) intValueOfChar;
+			name = name + finalChar;
 		}
-		nome = nome + este;
-		return nome;
+		name = name + exte;
+		return name;
 	}
-	
+
 	private String extractExtensionFromUrl(String url) {
-		String este=null;;
-		if(url.contains(".png"))
-			este= ".png";
+		String exte = null;
+		;
+		if (url.contains(".png"))
+			exte = ".png";
+		else if (url.contains(".jpg"))
+			exte = ".jpg";
+		else if (url.contains(".jpeg"))
+			exte = ".jpeg";
+		else if (url.contains(".ico"))
+			exte = ".ico";
 		else
-			if(url.contains(".jpg"))
-				este= ".jpg";
-			else
-				if(url.contains(".jpeg"))
-					este=".jpeg";
-				else
-					if(url.contains(".ico"))
-						este= ".ico";
-		return este;
-		}
-	
-	private void saveImage(String imageUrl, String destinationFile) throws IOException{
-		URL url = new URL(imageUrl); InputStream is = url.openStream();
-	  OutputStream os = new FileOutputStream(destinationFile);
-	  
-	 byte[] b = new byte[2048]; int length;
-	  
-	 while ((length = is.read(b)) != -1) { os.write(b, 0, length); }
-	  
-	  is.close(); os.close(); 
-	  }
-	
-	public void downloadimages (String url, String path) throws IOException{
-		String est;
-		String nomefile;
-		est=extractExtensionFromUrl(String.valueOf(url));
-		nomefile=creaFileName(est);
-		System.out.println(nomefile);
-		saveImage(url,path+fs+nomefile);
-	}
-	public void downloadimages (String[] listaurl, String path) throws IOException{
-		String est;
-		String nomefile;
-		for (int i=0; i< listaurl.length; i++)// finchè non siamo a fine file
 		{
-			Document doc= Jsoup.connect(listaurl[i]).get();
+			System.out.println("Errore");
+			exte=null;
+		}
+		return exte;
+	}
+
+	private void saveImage(String imageUrl, String destinationFile) throws IOException {
+		URL url = new URL(imageUrl);
+		InputStream is = url.openStream();
+		OutputStream os = new FileOutputStream(destinationFile);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = is.read(b)) != -1) {
+			os.write(b, 0, length);
+		}
+
+		is.close();
+		os.close();
+	}
+
+	public void downloadImages(String url, String path) throws IOException {
+		String est;
+		String nameFile;
+		est = extractExtensionFromUrl(String.valueOf(url));
+		nameFile = createFileName(est);
+		System.out.println(nameFile);
+		saveImage(url, path + fs + nameFile);
+	}
+
+	public void downloadImages(String[] listUrl, String path) throws IOException {
+		String ext;
+		String nameFile;
+		for (int i = 0; i < listUrl.length; i++)// finchè non siamo a fine file
+		{
+			Document doc = Jsoup.connect(listUrl[i]).get();
 			Elements links = doc.select("img[src]");
-			for(Element url: links) {
-			est=extractExtensionFromUrl(String.valueOf(url));
-			nomefile=creaFileName(est);
-			System.out.println(nomefile);
-			saveImage(String.valueOf(url),path+fs+nomefile);
+			for (Element url : links) {
+				ext = extractExtensionFromUrl(String.valueOf(url));
+				nameFile = createFileName(ext);
+				System.out.println(nameFile);
+				saveImage(String.valueOf(url), path + fs + nameFile);
 			}
 		}
 	}
 }
-
