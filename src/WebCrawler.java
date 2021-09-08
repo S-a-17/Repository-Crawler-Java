@@ -36,7 +36,6 @@ public class WebCrawler {
 
 	private String extractExtensionFromUrl(String url) {
 		String exte = null;
-		;
 		if (url.contains(".png"))
 			exte = ".png";
 		else if (url.contains(".jpg"))
@@ -47,7 +46,7 @@ public class WebCrawler {
 			exte = ".ico";
 		else
 		{
-			System.out.println("Errore");
+			System.out.println("WARNING: estensione non riconosciuta");
 			exte=null;
 		}
 		return exte;

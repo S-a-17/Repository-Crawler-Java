@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class MainClass {
+public class MyMainClass {
 	private static char fs = File.separatorChar;
 
 	public static void main(String[] args) throws IOException {
